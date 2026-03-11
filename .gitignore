@@ -12,3 +12,5 @@ dist/
 backend/__pycache__/
 *.pyc
 
+.vercel
+.env*.local
