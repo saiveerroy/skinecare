@@ -6,8 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "react-scripts --version"
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "firebase": "^11.10.0",
@@ -30,9 +29,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "engines": {
-    "node": "24.x",
-    "npm": "9.x"
+ 
   }
 }
