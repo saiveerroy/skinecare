@@ -18,6 +18,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
