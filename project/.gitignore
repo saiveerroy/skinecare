@@ -1,0 +1,14 @@
+node_modules
+
+
+venv/
+backend/venv/
+backend/node_modules/
+build/
+.env
+.DS_Store
+desktop.ini
+dist/
+backend/__pycache__/
+*.pyc
+
