@@ -1,0 +1,41 @@
+/*Homescreen.css*/
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float1 {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(30px); }
+}
+
+@keyframes float2 {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-30px); }
+}
+
+nav a {
+  position: relative;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg,#60a5fa,#a78bfa);
+  transition: 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+@keyframes glowMove {
+  0% { transform: translate(-150px, -150px); }
+  100% { transform: translate(-130px, -170px); }
+}
+

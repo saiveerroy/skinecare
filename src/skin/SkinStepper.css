@@ -1,0 +1,35 @@
+.skin-stepper {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #aaa;
+  font-weight: bold;
+}
+
+.step.active {
+  color: #007bff;
+}
+
+.line {
+  width: 40px;
+  height: 2px;
+  background: #ccc;
+  margin: 0 10px;
+}
+.progress .completed {
+  background: #2e7d32;
+  opacity: 0.5;
+}
+
+.option.selected {
+  border: 2px solid #1aa37a;
+  background: #e6f6f1;
+}
+
