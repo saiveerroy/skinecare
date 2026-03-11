@@ -1,37 +1,16 @@
 {
-  "name": "myapp",
-  "version": "0.1.0",
+  "name": "skinecare",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "firebase": "^12.9.0",
-    "framer-motion": "^12.34.0",
-    "jspdf": "^4.1.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^7.13.0",
-    "react-scripts": "^0.0.0",
-    "react-tsparticles": "^2.12.2"
+    "firebase": "^10.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.0",
+    "react-scripts": "^0.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "react-scripts build"
   }
 }
