@@ -71,8 +71,10 @@ const stopCamera = () => {
     const file = new File([blob], "captured.jpg", {
       type: "image/jpeg",
     });
-    setSelectedImage(file);
-  }, "image/jpeg");
+     const preview = URL.createObjectURL(file);
+      setImage(preview);
+    }, "image/jpeg");
+
 
   stopCamera(); // ✅ NOW IT EXISTS
 };
@@ -142,16 +144,20 @@ const stopCamera = () => {
   try {
     const file = dataURLtoFile(image);
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("file", file);
 
    // NEW (live Render backend)
-const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/skin-analyze`, {
-  method: "POST",
-  body: formData,
-});
+
+
+      const res = await fetch("http://localhost:8001/api/skin-analyze", {
+        method: "POST",
+        body: formData,
+      });
+
     if (!res.ok) throw new Error("Backend failed");
 
     const result = await res.json();
+    console.log(result);
 
     // ✅ SAVE TO HISTORY HERE (CORRECT PLACE)
     const historyItem = {

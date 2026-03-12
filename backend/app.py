@@ -1,48 +1,84 @@
 # backend/app.py
+
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import numpy as np
 from model import FeatureExtractor
 from utils import find_most_similar
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-extractor = FeatureExtractor()
 
-# Load your dataset embeddings and labels
-dataset_features = np.load("embeddings.npy")
-dataset_labels = np.load("labels.npy")
-
-# CORS setup
+# -------------------------
+# CORS setup for React dev
+# -------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://skinecares-saiveerroy-saiveerroys-projects.vercel.app",
-        "https://skinecares-33fiablfd-saiveerroys-projects.vercel.app",
-        "http://localhost:3000",  # Add this for local React dev
-    ],
+    allow_origins=["http://localhost:3001"],  # Change if needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# -------------------------
+# Load FeatureExtractor safely
+# -------------------------
+try:
+    extractor = FeatureExtractor()
+    print("FeatureExtractor loaded successfully.")
+except Exception as e:
+    print("Error loading FeatureExtractor:", e)
+    extractor = None
 
+# -------------------------
+# Load dataset safely
+# -------------------------
+try:
+    dataset_features = np.load("embeddings.npy")
+    dataset_labels = np.load("labels.npy")
+    print("Dataset embeddings and labels loaded successfully.")
+except Exception as e:
+    print("Error loading dataset files:", e)
+    dataset_features = np.array([])
+    dataset_labels = np.array([])
+
+# -------------------------
+# Root route for testing
+# -------------------------
+@app.get("/")
+def read_root():
+    return {"message": "Skin care backend is running"}
+
+# -------------------------
+# Skin analysis endpoint
+# -------------------------
 @app.post("/api/skin-analyze")
 async def analyze_skin(file: UploadFile = File(...)):
+    # Check if model and dataset are loaded
+    if extractor is None or len(dataset_features) == 0:
+        raise HTTPException(
+            status_code=500,
+            detail="Server is not ready: model or dataset not loaded."
+        )
+
+    # Check file size
     contents = await file.read()
     if len(contents) > 5_000_000:
         raise HTTPException(status_code=413, detail="Image too large (max 5MB)")
 
     try:
+        # Load image
         img = Image.open(file.file).convert("RGB")
         feature = extractor.extract(img)
 
+        # Find most similar samples
         results = find_most_similar(
             feature,
             dataset_features,
             dataset_labels
         )
 
+        # Build response
         primary = results[0]["condition"]
         confidence_score = results[0]["similarity"]
 

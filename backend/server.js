@@ -8,11 +8,10 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(cors());
 
-app.post("/api/skin-analyze", upload.single("image"), (req, res) => {
+app.post("/api/skin-analyze", upload.single("file"), (req, res) => {
   console.log("BODY:", req.body);
   console.log("FILE:", req.file?.originalname);
 
-  // Fake AI response (for testing)
   res.json({
     primary_condition: "Acne",
     possible_conditions: ["Blackheads", "Whiteheads"],
@@ -22,5 +21,5 @@ app.post("/api/skin-analyze", upload.single("image"), (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

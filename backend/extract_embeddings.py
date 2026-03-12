@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 from model import FeatureExtractor  # Your model.py in the same folder
 
-DATASET_DIR = "../dataset"
+DATASET_DIR = "../dataset"  # Adjust path to your dataset folder
 OUTPUT_EMBEDDINGS = "embeddings.npy"
 OUTPUT_LABELS = "labels.npy"
 
@@ -31,6 +31,9 @@ for label in os.listdir(DATASET_DIR):
 
 embeddings = np.array(embeddings, dtype="float32")
 labels = np.array(labels)
+features = np.load("embeddings.npy")
+labels = np.load("labels.npy")
+print(features.shape, labels.shape)
 
 np.save(OUTPUT_EMBEDDINGS, embeddings)
 np.save(OUTPUT_LABELS, labels)
