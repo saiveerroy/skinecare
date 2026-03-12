@@ -149,10 +149,11 @@ const stopCamera = () => {
    // NEW (live Render backend)
 
 
-      const res = await fetch("http://localhost:8001/api/skin-analyze", {
+      const res = await fetch("https://skinecare-backend.onrender.com/api/skin-analyze", {
         method: "POST",
         body: formData,
       });
+      
 
     if (!res.ok) throw new Error("Backend failed");
 
