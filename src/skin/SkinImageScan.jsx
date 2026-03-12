@@ -13,6 +13,7 @@ export default function SkinImageScan() {
     location.state || {};
 
   const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
   const [cameraOn, setCameraOn] = useState(false);
   const [loading, setLoading] = useState(false);
 
