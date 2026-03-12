@@ -18,9 +18,7 @@ export default function SkinImageScan() {
   const [cameraOn, setCameraOn] = useState(false);
   const [loading, setLoading] = useState(false);
 
-const [aiResult, setAiResult] = useState(null);
-const result = await res.json();
-setAiResult(result);
+
 
   /* 🔒 Guard */
   useEffect(() => {
