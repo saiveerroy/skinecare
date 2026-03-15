@@ -1,12 +1,14 @@
 // src/skin/SkinAssessmentResult.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./skinAssessment.css";
 
 export default function SkinAssessmentResult() {
   const location = useLocation();
   const state = location.state;
   const navigate = useNavigate();
   const canvasRef = useRef(null);
+  const { image, result } = state;
 
   useEffect(() => {
     if (!state || !state.result || !state.result.heatmap) return;
@@ -36,13 +38,13 @@ export default function SkinAssessmentResult() {
   const [acneProgress, setAcneProgress] = useState([]);
 
     useEffect(() => {
-      if (!result) return;
+      if (!state || !state.result) return;
 
       const history =
         JSON.parse(localStorage.getItem("skinHistory")) || [];
 
       const progress = history
-        .filter(item => item.result?.primary_condition === result.primary_condition)
+        .filter(item => item.result?.primary_condition === state.result.primary_condition)
         .map(item => ({
           date: item.date,
           confidence: item.result.confidence
@@ -50,7 +52,7 @@ export default function SkinAssessmentResult() {
 
       setAcneProgress(progress);
 
-    }, [result]);
+    }, [state]);
 
     
 
@@ -68,8 +70,6 @@ export default function SkinAssessmentResult() {
       </div>
     );
   }
-
-  const { image, result } = state;
 
   const productMap = {
     Acne: [
@@ -346,4 +346,5 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.3s ease",
   },
+  
 };

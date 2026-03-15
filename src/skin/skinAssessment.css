@@ -433,3 +433,20 @@ button.clear-btn {
   background: #93e697;
 }
 
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.result-img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.heatmap-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
