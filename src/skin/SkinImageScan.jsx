@@ -192,7 +192,7 @@ export default function SkinImageScan() {
       } finally {
         setLoading(false);
       }
-      const result = await res.json();
+    
 
       // ✅ Save live AI result
       setAiResult(result);
