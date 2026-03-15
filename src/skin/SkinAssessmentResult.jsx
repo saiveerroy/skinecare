@@ -1,19 +1,21 @@
 // src/skin/SkinAssessmentResult.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SkinAssessmentResult() {
   const location = useLocation();
   const state = location.state;
   const navigate = useNavigate();
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (!result.heatmap) return;
-
+    if (!state || !state.result || !state.result.heatmap) return;
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
 
-    result.heatmap.forEach(point => {
+     state.result.heatmap.forEach(point => {
       const gradient = ctx.createRadialGradient(
         point.x, point.y, 5,
         point.x, point.y, point.r
@@ -30,28 +32,33 @@ export default function SkinAssessmentResult() {
 
   }, [result]);
 
+
   const [acneProgress, setAcneProgress] = useState([]);
 
     useEffect(() => {
+      if (!result) return;
+
       const history =
         JSON.parse(localStorage.getItem("skinHistory")) || [];
 
       const progress = history
-        .filter(item => item.result.primary_condition === result.primary_condition)
+        .filter(item => item.result?.primary_condition === result.primary_condition)
         .map(item => ({
           date: item.date,
           confidence: item.result.confidence
         }));
 
       setAcneProgress(progress);
-    }, []);
+
+    }, [result]);
+
     
 
     
   
   
 
-  if (!state?.result) {
+  if (!state || !state.result) {
     return (
       <div style={styles.container}>
         <h2 style={styles.h2}>No Result Found</h2>
@@ -63,6 +70,76 @@ export default function SkinAssessmentResult() {
   }
 
   const { image, result } = state;
+
+  const recommendedProducts = productMap[result.primary_condition] || [];
+
+    const productMap = {
+      Acne: [
+        "Salicylic Acid Cleanser",
+        "Niacinamide Serum",
+        "Oil-Free Moisturizer"
+      ],
+      Pigmentation: [
+        "Vitamin C Serum",
+        "Alpha Arbutin",
+        "SPF 50 Sunscreen"
+      ],
+      Dryness: [
+        "Hyaluronic Acid Serum",
+        "Ceramide Moisturizer",
+        "Gentle Cleanser"
+      ]
+    };
+
+    const routine = regime[result.primary_condition];
+  const regime = {
+    Acne: {
+      morning: [
+        "Gentle Cleanser",
+        "Niacinamide Serum",
+        "Oil-Free Moisturizer",
+        "SPF 50 Sunscreen"
+      ],
+      night: [
+        "Salicylic Acid Cleanser",
+        "Retinol Serum",
+        "Hydrating Moisturizer"
+      ]
+    },
+
+    Pigmentation: {
+      morning: [
+        "Gentle Cleanser",
+        "Vitamin C Serum",
+        "Moisturizer",
+        "SPF 50 Sunscreen"
+      ],
+      night: [
+        "Cleanser",
+        "Alpha Arbutin Serum",
+        "Night Cream"
+      ]
+    },
+
+    Dryness: {
+      morning: [
+        "Hydrating Cleanser",
+        "Hyaluronic Acid Serum",
+        "Ceramide Moisturizer",
+        "SPF 50 Sunscreen"
+      ],
+      night: [
+        "Gentle Cleanser",
+        "Hyaluronic Acid Serum",
+        "Rich Moisturizer"
+      ]
+    }
+  };
+  console.log("Result state:", state);
+
+
+
+
   const {
     primary_condition,
     confidence,
@@ -72,73 +149,7 @@ export default function SkinAssessmentResult() {
     medical_disclaimer,
   } = result;
 
-  const recommendedProducts = productMap[primary_condition] || [];
-  
-  const productMap = {
-    Acne: [
-      "Salicylic Acid Cleanser",
-      "Niacinamide Serum",
-      "Oil-Free Moisturizer"
-    ],
-    Pigmentation: [
-      "Vitamin C Serum",
-      "Alpha Arbutin",
-      "SPF 50 Sunscreen"
-    ],
-    Dryness: [
-      "Hyaluronic Acid Serum",
-      "Ceramide Moisturizer",
-      "Gentle Cleanser"
-    ]
-  };
-  const routine = regime[result.primary_condition];
-  
 
-      const regime = {
-      Acne: {
-        morning: [
-          "Gentle Cleanser",
-          "Niacinamide Serum",
-          "Oil-Free Moisturizer",
-          "SPF 50 Sunscreen"
-        ],
-        night: [
-          "Salicylic Acid Cleanser",
-          "Retinol Serum",
-          "Hydrating Moisturizer"
-        ]
-      },
-
-      Pigmentation: {
-        morning: [
-          "Gentle Cleanser",
-          "Vitamin C Serum",
-          "Moisturizer",
-          "SPF 50 Sunscreen"
-        ],
-        night: [
-          "Cleanser",
-          "Alpha Arbutin Serum",
-          "Night Cream"
-        ]
-      },
-
-      Dryness: {
-        morning: [
-          "Hydrating Cleanser",
-          "Hyaluronic Acid Serum",
-          "Ceramide Moisturizer",
-          "SPF 50 Sunscreen"
-        ],
-        night: [
-          "Gentle Cleanser",
-          "Hyaluronic Acid Serum",
-          "Rich Moisturizer"
-        ]
-      }
-    };
-    console.log("Result state:", state);
-    
     
 
   return (
