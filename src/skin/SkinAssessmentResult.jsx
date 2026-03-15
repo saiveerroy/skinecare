@@ -30,7 +30,7 @@ export default function SkinAssessmentResult() {
       ctx.fill();
     });
 
-  }, [result]);
+  }, [state]);
 
 
   const [acneProgress, setAcneProgress] = useState([]);
@@ -71,27 +71,24 @@ export default function SkinAssessmentResult() {
 
   const { image, result } = state;
 
-  const recommendedProducts = productMap[result.primary_condition] || [];
+  const productMap = {
+    Acne: [
+      "Salicylic Acid Cleanser",
+      "Niacinamide Serum",
+      "Oil-Free Moisturizer"
+    ],
+    Pigmentation: [
+      "Vitamin C Serum",
+      "Alpha Arbutin",
+      "SPF 50 Sunscreen"
+    ],
+    Dryness: [
+      "Hyaluronic Acid Serum",
+      "Ceramide Moisturizer",
+      "Gentle Cleanser"
+    ]
+  };
 
-    const productMap = {
-      Acne: [
-        "Salicylic Acid Cleanser",
-        "Niacinamide Serum",
-        "Oil-Free Moisturizer"
-      ],
-      Pigmentation: [
-        "Vitamin C Serum",
-        "Alpha Arbutin",
-        "SPF 50 Sunscreen"
-      ],
-      Dryness: [
-        "Hyaluronic Acid Serum",
-        "Ceramide Moisturizer",
-        "Gentle Cleanser"
-      ]
-    };
-
-    const routine = regime[result.primary_condition];
   const regime = {
     Acne: {
       morning: [
@@ -135,7 +132,9 @@ export default function SkinAssessmentResult() {
       ]
     }
   };
-  console.log("Result state:", state);
+
+  const recommendedProducts = productMap[result.primary_condition] || [];
+  const routine = regime[result.primary_condition];
 
 
 
@@ -178,7 +177,7 @@ export default function SkinAssessmentResult() {
 
           {acneProgress.map((scan, i) => (
             <div key={i} style={{ marginBottom: "6px" }}>
-              {scan.date} → Acne {scan.confidence}
+              {scan.date} → {result.primary_condition} {scan.confidence}
             </div>
           ))}
         </div>
