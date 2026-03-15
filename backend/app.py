@@ -90,6 +90,11 @@ async def analyze_skin(file: UploadFile = File(...)):
                 else "medium" if confidence_score > 0.6
                 else "low"
             ),
+            "heatmap": [
+                { "x": 120, "y": 90, "r": 25 },
+                { "x": 200, "y": 150, "r": 30 }
+            ],
+            
             "possible_conditions": [
                 r["condition"] for r in results[1:3]
             ],

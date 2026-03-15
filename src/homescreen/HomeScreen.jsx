@@ -99,9 +99,9 @@ export default function HomeScreen() {
         {/* Center: Navigation */}
         <nav style={styles.navCenter}>
           <a href="#slide1" style={styles.navLink}>Home</a>
-          <a href="#slide2" style={styles.navLink}>Treatment</a>
-          <a href="#slide3" style={styles.navLink}>About</a>
-          <a href="#slide4" style={styles.navLink}>Contact</a>
+          <a href="#slide2" style={styles.navLink}>Products</a>
+          <a href="#slide3" style={styles.navLink}>Treatment</a>
+          <a href="#slide4" style={styles.navLink}>About</a>
           <a href="#skin-history" style={styles.navLink} onClick={() => navigate("/skin-history")}>Skin History</a>
         </nav>
 
@@ -254,8 +254,59 @@ export default function HomeScreen() {
 
 
        {/* Slide 3 */}
+
           <motion.section
             id="slide3"
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            style={{
+              height: "100vh",
+              background: "linear-gradient(135deg,#0f172a,#1e293b)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              scrollSnapAlign: "start",
+            }}
+          >
+            <h2 style={{ fontSize: "42px", fontWeight: "700", marginBottom: "20px" }}>
+              Start Your Skincare Journey Today
+            </h2>
+
+            <p style={{ fontSize: "18px", color: "#cbd5e1", maxWidth: "600px", marginBottom: "40px" }}>
+              Personalized AI-driven insights designed to help you achieve radiant and healthy skin.
+            </p>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: "14px 40px",
+                borderRadius: "40px",
+                border: "none",
+                background: "linear-gradient(135deg,#3b82f6,#6366f1)",
+                color: "#fff",
+                fontSize: "16px",
+                fontWeight: "600",
+                cursor: "pointer",
+              }}
+              onClick={()=>window.open("https://calendly.com/skin-doctor")}
+              >
+              Book Dermatologist
+            </motion.button>
+
+            <p style={{ marginTop: "60px", fontSize: "14px", color: "#64748b" }}>
+              © 2026 SKINECARE. All Rights Reserved.
+            </p>
+          </motion.section>
+
+           {/* Slide 4 */}
+
+          <motion.section
+            id="slide4"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -300,56 +351,6 @@ export default function HomeScreen() {
             >
               ENJOY HEALTHY GLOW
             </motion.h2>
-          </motion.section>
-
-
-          {/* Slide 4 */}
-          <motion.section
-            id="slide4"
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            style={{
-              height: "100vh",
-              background: "linear-gradient(135deg,#0f172a,#1e293b)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              scrollSnapAlign: "start",
-            }}
-          >
-            <h2 style={{ fontSize: "42px", fontWeight: "700", marginBottom: "20px" }}>
-              Start Your Skincare Journey Today
-            </h2>
-
-            <p style={{ fontSize: "18px", color: "#cbd5e1", maxWidth: "600px", marginBottom: "40px" }}>
-              Personalized AI-driven insights designed to help you achieve radiant and healthy skin.
-            </p>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: "14px 40px",
-                borderRadius: "40px",
-                border: "none",
-                background: "linear-gradient(135deg,#3b82f6,#6366f1)",
-                color: "#fff",
-                fontSize: "16px",
-                fontWeight: "600",
-                cursor: "pointer",
-              }}
-              onClick={() => navigate("/signup")} // navigate to signup page
-            >
-              Get Started
-            </motion.button>
-
-            <p style={{ marginTop: "60px", fontSize: "14px", color: "#64748b" }}>
-              © 2026 SKINECARE. All Rights Reserved.
-            </p>
           </motion.section>
 
 

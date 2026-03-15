@@ -16,22 +16,23 @@ export default function SkinConcern() {
   const MAX_CHARS = 500;
   const [days, setDays] = useState("");
 
-  useEffect(() => {
-  if (!texture || !skinType) {
-    navigate("/skin-assessment");
-  }
-}, [texture, skinType, navigate]);
+    useEffect(() => 
+      {
+        if (!texture || !skinType) {
+          navigate("/skin-assessment");
+        }
+      }, [texture, skinType, navigate]);
 
 
 
 
   const toggleArea = (area) => {
-    setSelectedAreas((prev) =>
-      prev.includes(area)
-        ? prev.filter((a) => a !== area)
-        : [...prev, area]
-    );
-  };
+      setSelectedAreas((prev) =>
+        prev.includes(area)
+          ? prev.filter((a) => a !== area)
+          : [...prev, area]
+      );
+    };
 
   return (
     <div className="skin-container">
@@ -92,9 +93,7 @@ export default function SkinConcern() {
         />
       </div>
 
-      <div className="char-count">
-        {symptoms.length} / {MAX_CHARS}
-      </div>
+    
 
 
             {/* Symptoms */}

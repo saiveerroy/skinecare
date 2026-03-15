@@ -19,12 +19,7 @@ export default function SkinAssessment() {
       </div>
 
 
-      {/* Progress */}
-      <div className="progress">
-        <div className="active"></div>
-        <div></div>
-        <div></div>
-      </div>
+      
 
       {/* Question */}
       <h2>What is your skin texture?</h2>

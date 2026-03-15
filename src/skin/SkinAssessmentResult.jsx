@@ -1,10 +1,52 @@
 // src/skin/SkinAssessmentResult.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SkinAssessmentResult() {
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!result.heatmap) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    result.heatmap.forEach(point => {
+      const gradient = ctx.createRadialGradient(
+        point.x, point.y, 5,
+        point.x, point.y, point.r
+      );
+
+      gradient.addColorStop(0, "rgba(255,0,0,0.6)");
+      gradient.addColorStop(1, "rgba(255,0,0,0)");
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, point.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+  }, [result]);
+
+  const [acneProgress, setAcneProgress] = useState([]);
+
+    useEffect(() => {
+      const history =
+        JSON.parse(localStorage.getItem("skinHistory")) || [];
+
+      const progress = history
+        .filter(item => item.result.primary_condition === result.primary_condition)
+        .map(item => ({
+          date: item.date,
+          confidence: item.result.confidence
+        }));
+
+      setAcneProgress(progress);
+    }, []);
+    
+
+    
   
   
 
@@ -19,11 +61,7 @@ export default function SkinAssessmentResult() {
     );
   }
 
-  const { image,texture,
-    skinType,
-    areas,
-    symptoms,
-    duration, result } = state;
+  const { image, result } = state;
   const {
     primary_condition,
     confidence,
@@ -33,11 +71,83 @@ export default function SkinAssessmentResult() {
     medical_disclaimer,
   } = result;
 
+  const recommendedProducts = productMap[primary_condition] || [];
+  
+  const productMap = {
+    Acne: [
+      "Salicylic Acid Cleanser",
+      "Niacinamide Serum",
+      "Oil-Free Moisturizer"
+    ],
+    Pigmentation: [
+      "Vitamin C Serum",
+      "Alpha Arbutin",
+      "SPF 50 Sunscreen"
+    ],
+    Dryness: [
+      "Hyaluronic Acid Serum",
+      "Ceramide Moisturizer",
+      "Gentle Cleanser"
+    ]
+  };
+  const routine = regime[result.primary_condition];
+  
+
+      const regime = {
+      Acne: {
+        morning: [
+          "Gentle Cleanser",
+          "Niacinamide Serum",
+          "Oil-Free Moisturizer",
+          "SPF 50 Sunscreen"
+        ],
+        night: [
+          "Salicylic Acid Cleanser",
+          "Retinol Serum",
+          "Hydrating Moisturizer"
+        ]
+      },
+
+      Pigmentation: {
+        morning: [
+          "Gentle Cleanser",
+          "Vitamin C Serum",
+          "Moisturizer",
+          "SPF 50 Sunscreen"
+        ],
+        night: [
+          "Cleanser",
+          "Alpha Arbutin Serum",
+          "Night Cream"
+        ]
+      },
+
+      Dryness: {
+        morning: [
+          "Hydrating Cleanser",
+          "Hyaluronic Acid Serum",
+          "Ceramide Moisturizer",
+          "SPF 50 Sunscreen"
+        ],
+        night: [
+          "Gentle Cleanser",
+          "Hyaluronic Acid Serum",
+          "Rich Moisturizer"
+        ]
+      }
+    };
+
+    
+
   return (
     <div style={styles.container}>
       <h2 style={styles.h2}>Skin Analysis Result</h2>
 
-      {image && <img src={image} alt="skin" style={styles.image} />}
+     <div className="image-wrapper">
+      <img src={image} alt="skin" className="result-img" />
+      <canvas ref={canvasRef} className="heatmap-canvas"></canvas>
+     </div>
+      
 
       <div style={styles.section}>
         <div style={styles.title}>Primary Condition</div>
@@ -48,6 +158,18 @@ export default function SkinAssessmentResult() {
         <div style={styles.title}>Confidence</div>
         <span style={styles.confidenceBadge}>{confidence}</span>
       </div>
+
+      {acneProgress.length > 0 && (
+        <div style={styles.section}>
+          <div style={styles.title}>Skin Progress</div>
+
+          {acneProgress.map((scan, i) => (
+            <div key={i} style={{ marginBottom: "6px" }}>
+              {scan.date} → Acne {scan.confidence}
+            </div>
+          ))}
+        </div>
+      )}
 
       {observations.length > 0 && (
         <div style={styles.section}>
@@ -72,11 +194,44 @@ export default function SkinAssessmentResult() {
         <div style={styles.text}>{recommendation}</div>
       </div>
 
+      {recommendedProducts.length > 0 && (
+        <div style={styles.section}>
+          <div style={styles.title}>Recommended Products</div>
+
+          <ul style={styles.list}>
+            {recommendedProducts.map((p, i) => (
+              <li key={i} style={styles.listItem}>✔ {p}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {routine && (
+        <div style={styles.section}>
+          <div style={styles.title}>Daily Skincare Routine</div>
+
+          <h3>Morning Routine</h3>
+          <ul style={styles.list}>
+            {routine.morning.map((r, i) => (
+              <li key={i} style={styles.listItem}>☀ {r}</li>
+            ))}
+          </ul>
+
+          <h3>Night Routine</h3>
+          <ul style={styles.list}>
+            {routine.night.map((r, i) => (
+              <li key={i} style={styles.listItem}>🌙 {r}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <p style={styles.disclaimer}>{medical_disclaimer}</p>
 
       <button style={styles.button} onClick={() => navigate("/home")}>
         Done
       </button>
+
     </div>
   );
 }
