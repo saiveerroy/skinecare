@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SkinAssessmentResult() {
-  const { state } = useLocation();
+  const location = useLocation();
+  const state = location.state;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -136,7 +137,8 @@ export default function SkinAssessmentResult() {
         ]
       }
     };
-
+    console.log("Result state:", state);
+    
     
 
   return (
