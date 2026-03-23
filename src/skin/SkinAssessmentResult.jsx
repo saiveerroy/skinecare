@@ -8,7 +8,7 @@ export default function SkinAssessmentResult() {
   const state = location.state;
   const navigate = useNavigate();
   const canvasRef = useRef(null);
-  const { image, result } = state;
+  
 
   useEffect(() => {
     if (!state || !state.result || !state.result.heatmap) return;
@@ -70,6 +70,8 @@ export default function SkinAssessmentResult() {
       </div>
     );
   }
+
+  const { image, result } = state;
 
   const productMap = {
     Acne: [
