@@ -30,13 +30,13 @@ def find_similar(query_embedding, top_k=5):
         recommendation = "Maintain proper skincare routine and monitor changes."
 
     return {
-  "primary_condition": "acne",
-  "confidence": "high",
-  "possible_conditions": ["rosacea", "eczema"],
-  "observations": [
-    "Texture irregularity detected",
-    "Color variation observed"
-  ],
-  "recommendation": "Use a gentle cleanser and consult a dermatologist if symptoms worsen.",
-  "medical_disclaimer": "This is not a medical diagnosis."
-}
+        "primary_condition": primary_condition,
+          "confidence": confidence,
+          "possible_conditions": possible_conditions,
+        "observations": [
+          "Texture irregularity detected",
+          "Color variation observed"
+        ],
+        "recommendation": "Use a gentle cleanser and consult a dermatologist if symptoms worsen.",
+        "medical_disclaimer": "This is not a medical diagnosis."
+      }
